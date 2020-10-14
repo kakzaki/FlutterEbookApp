@@ -95,11 +95,7 @@ class DetailsProvider extends ChangeNotifier {
   }
 
   Future downloadFile(BuildContext context, String url, String filename) async {
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-
-    if (permission != PermissionStatus.granted) {
-      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    if (await Permission.storage.request().isGranted) {
       startDownload(context, url, filename);
     } else {
       startDownload(context, url, filename);
